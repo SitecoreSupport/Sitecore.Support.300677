@@ -9,16 +9,15 @@ using Sitecore.Data.Items;
 using Sitecore.Data.Masters;
 using Sitecore.Diagnostics;
 using Sitecore.Mvc.Presentation;
-using Sitecore.ExperienceEditor.Speak.Ribbon.Controls.SelectOptionItem;
+using Sitecore.Support.ExperienceEditor.Speak.Ribbon.Controls.SelectOptionItem;
 
 #endregion
 
 namespace Sitecore.Support.ExperienceEditor.Speak.Ribbon.Controls.InsertOptions
 {
   using Sitecore.ExperienceEditor.Speak.Caches;
-  using Sitecore.ExperienceEditor.Speak.Ribbon;
 
-  public class InsertOptions : RibbonComponentControlBase
+  public class InsertOptions : Sitecore.ExperienceEditor.Speak.Ribbon.RibbonComponentControlBase
   {
     protected const string DefaultDataBind = "visible: isVisible";
 
@@ -61,7 +60,14 @@ namespace Sitecore.Support.ExperienceEditor.Speak.Ribbon.Controls.InsertOptions
       ResourcesCache.RequireCss(this, "ribbon", "InsertOptions.css");
       DataBind = DefaultDataBind;
       var items = GetInsertOptions(DataSourceItem);
-      InsertItems = items.Select(i => new SelectOptionsItem(i, "trigger:item:selected", true));
+      if (items.Count() == 0)
+      {
+        InsertItems = new List<SelectOptionsItem> { new SelectOptionsItem(DataSourceItem.Template, "trigger:item:selected", false) };
+      }
+      else
+      {
+        InsertItems = items.Select(i => new SelectOptionsItem(i, "trigger:item:selected", true));
+      }
       HasNestedComponents = true;
     }
 

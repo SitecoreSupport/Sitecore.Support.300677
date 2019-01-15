@@ -162,6 +162,8 @@
             if (context.templateId
               && context.itemNameElement().value.trim()) {
                 context.InsertButton.viewModel.enable();
+                var dialogWindow = document.getElementsByClassName("sc-dialogWindow-buttons")[0];
+                dialogWindow.children[0].setAttribute('disabled', "disabled");
                 return;
             }
             context.InsertButton.viewModel.disable();
